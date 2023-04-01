@@ -73,7 +73,8 @@ df_hist.drop(df_hist.index[0], inplace=True)
 print('Summary of ETF Returns:\n', returns_summary(df_hist))
 
 bs_estimates = bayes_stein(df_hist)
-print('\nBayes-Stein Estimate of Mean Return:\n', bs_estimates[0], '\nBayes-Stein Estimate of Covariance of Return:\n', bs_estimates[1])
+print('\nBayes-Stein Estimate of Mean Return:\n', bs_estimates[0], 
+      '\nBayes-Stein Estimate of Covariance of Return:\n', bs_estimates[1])
 
 n = df_hist.shape[0]//2+1
 df_train = df_hist.iloc[:n, :]
@@ -89,4 +90,4 @@ df_portfolio['TP'] = df_test @ w_tp
 mu_portfolio = df_portfolio.mean()
 sd_portfolio = df_portfolio.std()
 sharpe_portfolio = mu_portfolio/sd_portfolio
-print('\n', 'Sharpe Ratio of Portfolio:\n', sharpe_portfolio)
+print('\nSharpe Ratio of Portfolio:\n', sharpe_portfolio)
