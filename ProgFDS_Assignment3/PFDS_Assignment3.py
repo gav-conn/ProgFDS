@@ -1,7 +1,7 @@
 import pandas as pd
 import yfinance as yf
 import numpy as np
-from scipy.stats import norm
+from scipy.stats import t
 
 tickers_list = ['IVV', 'IEUR', 'AIA', 'IEMG']
 
@@ -66,10 +66,11 @@ def jobson_korkie_test(portfolio_returns, risk_free=0, acceptance_threshold=0.05
     theta = 1/T*(2*sigma_a*sigma_b-2*np.sqrt(sigma_a*sigma_b)*sigma_ab + 1/2*mu_a**2*sigma_b +
                   1/2*mu_b**2*sigma_a - mu_a*mu_b/(np.sqrt(sigma_a*sigma_b))*sigma_ab**2)
     c_jk = np.sqrt(sigma_b)*mu_a-np.sqrt(sigma_a)*mu_b
+    print(theta)
 
     jk_stat = c_jk/np.sqrt(theta)
     # Take negative of absolute value so we get consistent test results regardless of ordering of portfolio inputs
-    jk_pval = norm.cdf(-abs(jk_stat))
+    jk_pval = t.cdf(-abs(jk_stat), T-1)
     jk_reject_null = jk_pval < acceptance_threshold/2 # Reject if score in the 5% most extreme results (Two-way test) 
     return jk_stat, jk_pval, jk_reject_null
 
@@ -91,7 +92,7 @@ print(f'\nBayes-Stein Estimate of Mean Return:\n{mu_bs}')
 print(f'\nBayes-Stein Estimate of Covariance of Return:\n{sigma_bs}')
 
 # Q4
-n = df_hist.shape[0]//2+1
+n = df_hist.shape[0]//2
 df_train = df_hist.iloc[:n, :]
 df_test = df_hist.iloc[n:, :]
 
