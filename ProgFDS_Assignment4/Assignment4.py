@@ -2,14 +2,13 @@ import yahooquery as yq
 import pandas as pd
 import numpy as np
 from splinter import Browser
-import datetime as dt
 import time
 from scipy.stats import norm
 
 # Set input variables
-download_folder = r'C:\Users\Gavin\Downloads'
+download_folder = r'Z:\Users\Gavin\Downloads'
 # Set path for browser driver
-executable_path = {'executable_path': r'C:\Users\Gavin\Desktop\geckodriver-v0.33.0-win64\geckodriver.exe'}
+executable_path = {'executable_path': r'C:\Users\Gavin\Desktop\geckodriver.exe'}
 
 # Link to FRED database
 url = 'https://fred.stlouisfed.org/series/DTB4WK'
@@ -30,7 +29,9 @@ df['returns'] = np.log(df['adjclose'].pct_change()+1)
 df.reset_index(drop=False, inplace=True)
 df = df[['date', 'adjclose', 'returns']]
 
-df['ma'] = df['adjclose'].rolling(window = ma_lag, min_periods = ma_lag).mean()
+df['ma'] = df['adjclose'].rolling(window = ma_lag).mean()
+
+print(df.head(10))
 
 # Comment out lines between dashes to run file using pre-downloaded file
 # ------------------------------------------------------------- 
